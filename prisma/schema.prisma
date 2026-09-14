@@ -1,0 +1,69 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String      @id @default(cuid())
+  email        String      @unique
+  name         String?
+  passwordHash String
+  createdAt    DateTime    @default(now())
+  workspaces   Workspace[]
+}
+
+model Workspace {
+  id        String   @id @default(cuid())
+  name      String
+  ownerId   String
+  owner     User     @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  plan      String   @default("free") // free | creator | business | agency
+  createdAt DateTime @default(now())
+  qrcodes   QRCode[]
+
+  @@index([ownerId])
+}
+
+model QRCode {
+  id          String      @id @default(cuid())
+  shortCode   String      @unique
+  workspaceId String
+  workspace   Workspace   @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  type        String      @default("url") // url | whatsapp | upi | ...
+  mode        String      @default("dynamic") // static | dynamic
+  destination String
+  title       String
+  campaign    String?
+  design      Json?
+  rules       Json? // smart routing: { device: {...}, schedule: [...], geo: {...}, default }
+  status      String      @default("active") // active | paused
+  scanCount   Int         @default(0)
+  expiresAt   DateTime?
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  scans       ScanEvent[]
+
+  @@index([workspaceId])
+}
+
+model ScanEvent {
+  id          String   @id @default(cuid())
+  qrId        String
+  qr          QRCode   @relation(fields: [qrId], references: [id], onDelete: Cascade)
+  ts          DateTime @default(now())
+  device      String?
+  os          String?
+  browser     String?
+  country     String?
+  city        String?
+  referrer    String?
+  visitorHash String?
+  isUnique    Boolean  @default(false)
+
+  @@index([qrId, ts])
+  @@index([qrId, visitorHash])
+}

@@ -1,0 +1,155 @@
+@import "tailwindcss";
+
+/* lumiqgen design tokens — ultra-minimal, paper + ink + one violet accent. */
+@theme {
+  --color-paper: #fafaf9;
+  --color-ink: #101013;
+  --color-ink-soft: #3d3d43;
+  --color-muted: #71717a;
+  --color-faint: #a1a1aa;
+  --color-line: #e7e5e4;
+  --color-card: #ffffff;
+  --color-accent: #6d5bff;
+  --color-accent-deep: #5643e6;
+  --color-accent-soft: #efedff;
+  --color-glow: #b7acff;
+  --color-night: #0e0e12;
+  --color-night-soft: #1a1a21;
+  --color-good: #16a34a;
+  --color-warn: #d97706;
+  --color-bad: #dc2626;
+
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+
+  --shadow-lift: 0 1px 2px rgb(16 16 19 / 0.04), 0 8px 24px rgb(16 16 19 / 0.06);
+  --shadow-pop: 0 2px 6px rgb(16 16 19 / 0.06), 0 20px 48px rgb(16 16 19 / 0.1);
+}
+
+body {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--color-accent);
+  color: #fff;
+}
+
+/* Dot-grid hero backdrop */
+.dotgrid {
+  background-image: radial-gradient(circle, rgb(16 16 19 / 0.08) 1px, transparent 1px);
+  background-size: 22px 22px;
+  mask-image: radial-gradient(ellipse 80% 70% at 50% 0%, #000 40%, transparent 100%);
+}
+
+/* Soft violet aura used behind the generator card */
+.aura {
+  background:
+    radial-gradient(600px 320px at 30% 20%, rgb(109 91 255 / 0.14), transparent 70%),
+    radial-gradient(500px 300px at 75% 60%, rgb(62 197 255 / 0.1), transparent 70%);
+}
+
+/* Hairline input look */
+.field {
+  width: 100%;
+  border: 1px solid var(--color-line);
+  background: #fff;
+  border-radius: 0.75rem;
+  padding: 0.625rem 0.875rem;
+  font-size: 0.9375rem;
+  color: var(--color-ink);
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.field::placeholder {
+  color: var(--color-faint);
+}
+.field:focus {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgb(109 91 255 / 0.15);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 0.75rem;
+  font-weight: 550;
+  font-size: 0.9375rem;
+  padding: 0.625rem 1.25rem;
+  transition: all 0.15s;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.btn-primary {
+  background: var(--color-ink);
+  color: #fff;
+}
+.btn-primary:hover {
+  background: #000;
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-lift);
+}
+.btn-accent {
+  background: linear-gradient(135deg, var(--color-accent), var(--color-accent-deep));
+  color: #fff;
+  box-shadow: 0 4px 14px rgb(109 91 255 / 0.35);
+}
+.btn-accent:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgb(109 91 255 / 0.45);
+}
+.btn-ghost {
+  background: transparent;
+  color: var(--color-ink-soft);
+  border: 1px solid var(--color-line);
+}
+.btn-ghost:hover {
+  border-color: var(--color-ink);
+  color: var(--color-ink);
+}
+.btn:disabled {
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+.card {
+  background: var(--color-card);
+  border: 1px solid var(--color-line);
+  border-radius: 1.25rem;
+}
+
+/* checkerboard behind transparent QR previews */
+.checker {
+  background-image:
+    linear-gradient(45deg, #f0f0ef 25%, transparent 25%, transparent 75%, #f0f0ef 75%),
+    linear-gradient(45deg, #f0f0ef 25%, transparent 25%, transparent 75%, #f0f0ef 75%);
+  background-size: 16px 16px;
+  background-position: 0 0, 8px 8px;
+}
+
+.prose-lumi p {
+  color: var(--color-ink-soft);
+  line-height: 1.75;
+  margin-bottom: 1.25rem;
+  font-size: 1rem;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.rise {
+  animation: rise 0.5s cubic-bezier(0.21, 1, 0.32, 1) both;
+}
