@@ -33,10 +33,13 @@ npx prisma migrate dev
 npm run dev
 ```
 
-## Deploy (Railway)
+## Deploy (Railway, auto-deploy from GitHub)
 
-Service + Postgres plugin. Env vars: `DATABASE_URL` (reference the plugin),
-`AUTH_SECRET`, `NEXT_PUBLIC_BASE_URL=https://qgen.luminaraconsulting.co`,
+Source of truth is **github.com/harshvatsal41/QGen** — every push to `main`
+auto-deploys the Railway service `qgen` (project `qgen`, Postgres plugin).
+Env vars on the service: `DATABASE_URL` (plugin reference), `AUTH_SECRET`,
+`NEXT_PUBLIC_BASE_URL=https://qgen.luminaraconsulting.co`, `ADMIN_EMAILS`
+(comma-separated admin logins for /admin), and
 `NIXPACKS_INSTALL_CMD=npm install` (never `npm ci` on Railway — its cache
 mount inside node_modules makes `npm ci` fail EBUSY).
 `npm run start` runs `prisma migrate deploy` before `next start`.
