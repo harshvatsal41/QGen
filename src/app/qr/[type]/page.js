@@ -13,11 +13,29 @@ export async function generateMetadata({ params }) {
   const { type } = await params;
   const def = getType(type);
   if (!def) return {};
+  const label = def.label.toLowerCase();
   return {
     title: def.seo.title,
     description: def.seo.description,
     alternates: { canonical: `/qr/${type}` },
-    openGraph: { title: def.seo.title, description: def.seo.description },
+    keywords: [
+      `${label} qr code`,
+      `${label} qr code generator`,
+      `free ${label} qr code`,
+      `qr code for ${label}`,
+      "qr code generator", "free qr code", "no watermark qr code",
+    ],
+    openGraph: {
+      title: def.seo.title,
+      description: def.seo.description,
+      url: `/qr/${type}`,
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: def.seo.title,
+      description: def.seo.description,
+    },
   };
 }
 
@@ -25,6 +43,8 @@ export default async function QRTypePage({ params }) {
   const { type } = await params;
   const def = getType(type);
   if (!def) notFound();
+
+  const BASE = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
 
   const faqLd = {
     "@context": "https://schema.org",
@@ -36,6 +56,57 @@ export default async function QRTypePage({ params }) {
     })),
   };
 
+  // The visible breadcrumb, restated for machines.
+  const breadcrumbLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "lumiqgen", item: BASE },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: `${def.label} QR code`,
+        item: `${BASE}/qr/${type}`,
+      },
+    ],
+  };
+
+  // The tool on this page as a rich result: a free web app, price zero.
+  const appLd = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    name: `${def.label} QR Code Generator`,
+    applicationCategory: "UtilitiesApplication",
+    operatingSystem: "Any (web browser)",
+    url: `${BASE}/qr/${type}`,
+    offers: { "@type": "Offer", price: "0", priceCurrency: "INR" },
+    publisher: { "@id": `${BASE}/#organization` },
+  };
+
+  // The guide, as explicit steps.
+  const howToLd = {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    name: `How to create a free ${def.label.toLowerCase()} QR code`,
+    step: [
+      {
+        "@type": "HowToStep",
+        name: "Fill in the details",
+        text: `Enter the ${def.label.toLowerCase()} details in the generator — everything renders in your browser and nothing is uploaded.`,
+      },
+      {
+        "@type": "HowToStep",
+        name: "Preview the code",
+        text: "The QR code updates instantly as you type. Scan it with your phone camera to check it.",
+      },
+      {
+        "@type": "HowToStep",
+        name: "Download and print",
+        text: "Download as PNG for screens and documents, or SVG for razor-sharp printing at any size. The code never expires and carries no watermark.",
+      },
+    ],
+  };
+
   const others = QR_TYPE_SLUGS.filter((s) => s !== type).slice(0, 6);
 
   return (
@@ -43,6 +114,18 @@ export default async function QRTypePage({ params }) {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(appLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(howToLd) }}
       />
       <SiteNav />
       <main>

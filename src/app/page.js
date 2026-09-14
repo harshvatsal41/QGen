@@ -16,9 +16,48 @@ const TYPE_ICONS = {
   vcard: "👤", email: "✉️", sms: "📱", phone: "📞", text: "📄",
 };
 
+const BASE = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+
+// The product as a rich result: a free web application with a paid tier.
+const appLd = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  name: "lumiqgen",
+  applicationCategory: "UtilitiesApplication",
+  operatingSystem: "Any (web browser)",
+  url: BASE,
+  description:
+    "Free QR code generator with no signup, watermark or expiry, plus dynamic QR codes with editable destinations and scan analytics.",
+  offers: [
+    { "@type": "Offer", name: "Free", price: "0", priceCurrency: "INR" },
+    { "@type": "Offer", name: "Creator", price: "199", priceCurrency: "INR" },
+  ],
+  publisher: { "@id": `${BASE}/#organization` },
+};
+
+// The ten generators as a crawlable list, mirroring the visible grid.
+const listLd = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  itemListElement: Object.entries(QR_TYPES).map(([slug, t], i) => ({
+    "@type": "ListItem",
+    position: i + 1,
+    name: `${t.label} QR code generator`,
+    url: `${BASE}/qr/${slug}`,
+  })),
+};
+
 export default function Home() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(appLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(listLd) }}
+      />
       <SiteNav />
       <main>
         {/* ---- hero + generator ---- */}

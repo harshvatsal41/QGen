@@ -1,0 +1,34 @@
+# lumiqgen
+
+> Free QR code generator (no signup, no watermark, no expiry) and a dynamic QR
+> platform with editable destinations and scan analytics. A product of Luminara
+> Software Solutions. Live at https://qgen.luminaraconsulting.co
+
+## Free generators (100% client-side; nothing is uploaded)
+
+- [Website URL QR code](https://qgen.luminaraconsulting.co/qr/url)
+- [WhatsApp QR code](https://qgen.luminaraconsulting.co/qr/whatsapp)
+- [UPI payment QR code](https://qgen.luminaraconsulting.co/qr/upi)
+- [Wi-Fi QR code](https://qgen.luminaraconsulting.co/qr/wifi)
+- [Google Review QR code](https://qgen.luminaraconsulting.co/qr/google-review)
+- [vCard contact QR code](https://qgen.luminaraconsulting.co/qr/vcard)
+- [Email QR code](https://qgen.luminaraconsulting.co/qr/email)
+- [SMS QR code](https://qgen.luminaraconsulting.co/qr/sms)
+- [Phone call QR code](https://qgen.luminaraconsulting.co/qr/phone)
+- [Plain text QR code](https://qgen.luminaraconsulting.co/qr/text)
+
+## Dynamic QR (paid, from ₹199/month; first 3 free)
+
+- Printed pattern encodes a short redirect link whose destination stays
+  editable forever — reprint nothing.
+- Scan analytics: device, OS, browser, country, referrer, unique scans.
+- Smart routing: different destinations by platform (iOS/Android/desktop),
+  time window, or country.
+- [Pricing](https://qgen.luminaraconsulting.co/pricing)
+
+## Key facts
+
+- Static QR codes made here never expire and carry no watermark; they are
+  generated in the browser and work independently of this service.
+- Dynamic QR redirects answer 302 (never 301) so destinations stay editable.
+- Payments in INR via Razorpay (UPI, cards, netbanking).

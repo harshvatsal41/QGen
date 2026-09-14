@@ -93,9 +93,38 @@ const FAQS = [
   },
 ];
 
+const BASE = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+
+// The paid product with every tier as an Offer — eligible for price rich results.
+const productLd = {
+  "@context": "https://schema.org",
+  "@type": "Product",
+  name: "lumiqgen Dynamic QR",
+  description:
+    "Dynamic QR codes with destinations you can edit after printing, scan analytics by device, city and time, and smart routing rules.",
+  brand: { "@type": "Brand", name: "lumiqgen" },
+  offers: {
+    "@type": "AggregateOffer",
+    priceCurrency: "INR",
+    lowPrice: "0",
+    highPrice: "1999",
+    offerCount: 4,
+    offers: [
+      { "@type": "Offer", name: "Free", price: "0", priceCurrency: "INR" },
+      { "@type": "Offer", name: "Creator", price: "199", priceCurrency: "INR" },
+      { "@type": "Offer", name: "Business", price: "699", priceCurrency: "INR" },
+      { "@type": "Offer", name: "Agency", price: "1999", priceCurrency: "INR" },
+    ],
+  },
+};
+
 export default function PricingPage() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productLd) }}
+      />
       <SiteNav />
       <main className="mx-auto max-w-6xl px-5 py-16">
         <div className="mx-auto max-w-2xl text-center">
